@@ -8,12 +8,12 @@
 - **Description**: Comprehensive public-facing overview of our clinical trial matching system, highlighting real-world impact and technical innovations using BigQuery 2025's advanced features
 - **Published**: 2025
 
-## Websites and Demos
+## Websites
 
-### Clinical Trial Matching Pro - Interactive Demo
+### Clinical Trial Matching Pro
 - **Link**: https://clinicaltrialmatchingpro-wyd4zyv.gamma.site/
-- **Description**: Interactive website demonstration of the clinical trial matching system capabilities
-- **Type**: Live Demo/Presentation Site
+- **Description**: Presentation website of the clinical trial matching system capabilities
+- **Type**: Live Presentation Site
 
 ## Repository Links
 
@@ -25,7 +25,7 @@
 ## Competition Submission
 
 ### Kaggle BigQuery 2025 Hackathon
-- **Main Notebook**: [`demo_judge_complete.ipynb`](demo_judge_complete.ipynb)
+- **Main Demo Script**: [`demo_complete_test.py`](demo_complete_test.py)
 - **Technical Writeup**: [`KAGGLE_WRITEUP.md`](KAGGLE_WRITEUP.md)
 - **Survey Responses**: [`SURVEY_RESPONSES.md`](SURVEY_RESPONSES.md)
 

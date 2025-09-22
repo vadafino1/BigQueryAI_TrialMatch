@@ -8,7 +8,7 @@ This solution implements a production-ready clinical trial matching system using
 
 ## 📓 Competition Notebook
 
-**Main Submission Notebook**: [`demo_judge_complete.ipynb`](demo_judge_complete.ipynb)
+**Main Submission Script**: [`demo_complete_test.py`](demo_complete_test.py)
 - ✅ Self-contained and runnable without BigQuery credentials
 - ✅ Auto-downloads all necessary data (~116MB)
 - ✅ Demonstrates all required BigQuery 2025 features
@@ -73,7 +73,7 @@ python setup/setup.py --quick
 ## 📁 Repository Structure
 
 ```
-SUBMISSION/
+BigQueryAI_TrialMatch/
 ├── config/                 # Configuration management
 │   ├── default.config.json    # Competition winner settings
 │   ├── user.config.json       # Your custom settings
@@ -84,7 +84,7 @@ SUBMISSION/
 │   ├── check_prerequisites.py # Environment checker
 │   └── requirements.txt       # Python dependencies
 │
-├── sql/                    # BigQuery SQL implementations
+├── sql_files/              # BigQuery SQL implementations
 │   ├── 01_foundation/         # Schema and base tables
 │   ├── 02_features/           # Patient profiling
 │   ├── 03_vectors/            # Embeddings and indexes
@@ -92,7 +92,7 @@ SUBMISSION/
 │   ├── 05_matching/           # Matching pipeline
 │   └── 06_validation/         # Quality checks
 │
-├── python/                 # Core Python implementations
+├── python_files/           # Core Python implementations
 │   ├── core/                  # Data import and transformation
 │   ├── features/              # Feature engineering
 │   ├── matching/              # Vector search and scoring
@@ -100,6 +100,8 @@ SUBMISSION/
 │
 ├── notebooks/              # Jupyter demonstrations
 ├── docs/                   # Documentation
+├── exported_data/          # Auto-downloaded data (~116MB)
+├── demo_complete_test.py   # Main competition script
 └── scripts/                # Utility scripts
 ```
 
@@ -134,38 +136,38 @@ table = config.get_bigquery_table('patients')
 
 ### Phase 1: Data Import (3-4 hours)
 ```bash
-python python/core/import_mimic_patients.py      # 364K patients
-python python/core/import_clinical_trials.py     # 67K trials
+python python_files/import_mimic_patients.py      # 364K patients
+python python_files/import_clinical_trials.py     # 67K trials
 ```
 
 ### Phase 2: Temporal Normalization (Critical!)
 ```bash
-python python/core/temporal_transformation.py
+python python_files/temporal_transformation.py
 # Transforms MIMIC 2100-2200 dates → 2023-2025
 # Required for accurate eligibility matching
 ```
 
 ### Phase 3: Feature Engineering (4-5 hours)
 ```bash
-python python/features/extract_features.py       # 117 features/patient
-python python/features/generate_embeddings.py    # 768-dim vectors
+python python_files/extract_features.py       # 117 features/patient
+python python_files/generate_embeddings.py    # 768-dim vectors
 ```
 
 ### Phase 4: Vector Search Setup (1-2 hours)
 ```sql
 -- Create TreeAH indexes in BigQuery
-bq query < sql/03_vectors/04_vector_search_indexes.sql
+bq query < sql_files/03_vectors/04_vector_search_indexes.sql
 ```
 
 ### Phase 5: Match Generation (10-12 hours)
 ```bash
-python python/matching/generate_matches.py       # 7.25M matches
+python python_files/generate_matches.py       # 7.25M matches
 ```
 
 ### Phase 6: API Deployment
 ```bash
 # Test locally
-cd python/api && uvicorn main:app --reload
+cd python_files/api && uvicorn main:app --reload
 
 # Deploy to Cloud Run
 gcloud run deploy secure-bigquery-api --source .
@@ -266,7 +268,7 @@ This solution showcases:
 - ✅ Production-scale data processing
 - ✅ Temporal normalization for 2025 context
 - ✅ Critical bug fixes (cosine similarity)
-- ✅ TreeAH optimization (25x faster)
+- ✅ TreeAH optimization (11x faster)
 - ✅ Complete reproducibility
 
 ## 📝 License

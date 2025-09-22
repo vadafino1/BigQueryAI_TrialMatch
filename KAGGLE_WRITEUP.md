@@ -4,7 +4,7 @@
 
 We built a production-ready clinical trial matching system using BigQuery 2025's cutting-edge AI and vector search capabilities to match patients from MIMIC-IV with clinical trials from ClinicalTrials.gov. Our solution demonstrates how modern data warehouse features can transform healthcare by reducing patient-trial matching time from 2-4 weeks to under 1 second.
 
-**Main Demo Notebook**: [`demo_judge_complete.ipynb`](demo_judge_complete.ipynb) - A self-contained Jupyter notebook that auto-downloads all necessary data and demonstrates our complete solution without requiring BigQuery credentials.
+**Main Demo Script**: [`demo_complete_test.py`](demo_complete_test.py) - A self-contained Python script that auto-downloads all necessary data and demonstrates our complete solution without requiring BigQuery credentials.
 
 ## Problem Statement
 
@@ -191,17 +191,17 @@ We demonstrated AI.GENERATE capabilities with a cost-effective hybrid approach:
 ### Repository Structure
 ```
 BigQueryAI_TrialMatch/
-├── demo_judge_complete.ipynb  # Main competition notebook (self-contained)
+├── demo_complete_test.py      # Main competition script (self-contained)
 ├── sql_files/                 # 11 comprehensive SQL scripts
 ├── python_files/              # 9 Python implementation files
 ├── notebooks/                 # Additional Jupyter demonstrations
 ├── config/                    # Configuration management
-├── exported_data/             # Auto-downloaded by notebook (~116MB)
+├── exported_data/             # Auto-downloaded by script (~116MB)
 └── documentation/             # Complete technical docs
 ```
 
 ### Key Components
-- **Main Notebook**: `demo_judge_complete.ipynb` - Self-contained demo with auto-download
+- **Main Script**: `demo_complete_test.py` - Self-contained demo with auto-download
 - **Temporal Transformation**: `python_files/temporal_transformation_2025.py`
 - **Vector Search**: `python_files/vector_search_optimized.py`
 - **Patient Import**: `python_files/import_all_mimic_patients.py`
@@ -210,7 +210,7 @@ BigQueryAI_TrialMatch/
 
 ### Resources and Documentation
 - **Survey Response**: Complete project survey available in [`SURVEY_RESPONSES.md`](SURVEY_RESPONSES.md)
-- **Main Demo Notebook**: [`demo_judge_complete.ipynb`](demo_judge_complete.ipynb) - Runnable without credentials
+- **Main Demo Script**: [`demo_complete_test.py`](demo_complete_test.py) - Runnable without credentials
 - **Data Access**: See [`DATA_ACCESS_INSTRUCTIONS.md`](DATA_ACCESS_INSTRUCTIONS.md)
 - **Configuration Guide**: [`config/README.md`](config/README.md)
 - **GitHub Repository**: This repository contains the complete implementation
