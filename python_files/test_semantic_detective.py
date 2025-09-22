@@ -264,7 +264,7 @@ class SemanticDetectiveValidator:
             status = "NOT_READY"
 
         # Save report
-        report_path = "/workspaces/Kaggle_BigQuerry2025/SUBMISSION/semantic_detective_validation.md"
+        report_path = "semantic_detective_validation.md"
         with open(report_path, 'w') as f:
             f.write("# Semantic Detective Validation Report\n\n")
             f.write(f"**Date**: {datetime.now().isoformat()}\n")

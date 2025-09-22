@@ -4,6 +4,8 @@
 
 We built a production-ready clinical trial matching system using BigQuery 2025's cutting-edge AI and vector search capabilities to match patients from MIMIC-IV with clinical trials from ClinicalTrials.gov. Our solution demonstrates how modern data warehouse features can transform healthcare by reducing patient-trial matching time from 2-4 weeks to under 1 second.
 
+**Main Demo Notebook**: [`demo_judge_complete.ipynb`](demo_judge_complete.ipynb) - A self-contained Jupyter notebook that auto-downloads all necessary data and demonstrates our complete solution without requiring BigQuery credentials.
+
 ## Problem Statement
 
 Clinical trial recruitment is a $125 billion annual challenge. Traditional manual matching methods:
@@ -19,7 +21,7 @@ We aimed to solve this using BigQuery 2025's native vector search, AI functions,
 ### Data Pipeline Architecture
 
 #### 1. Patient Data Processing (MIMIC-IV)
-- **Scale**: Imported 145,914 MIMIC-IV patients with complete medical histories
+- **Scale**: Imported 364,627 MIMIC-IV patients with complete medical histories
 - **Temporal Normalization**: Transformed timestamps from 2100-2200 range to 2023-2025 for accurate eligibility assessment
 - **Profile Generation**: Created comprehensive profiles for 50,000 patients including:
   - Demographics (age, gender, ethnicity)
@@ -96,7 +98,7 @@ This approach reduces 10,000 × 5,000 = 50M potential comparisons to just 10,000
 
 | Metric | Achievement | Industry Standard | Improvement |
 |--------|-------------|-------------------|-------------|
-| **Patients Processed** | 145,914 | 5,000 | 29x |
+| **Patients Processed** | 364,627 | 5,000 | 73x |
 | **Trials Indexed** | 66,966 | 1,000 | 67x |
 | **Query Latency** | <1 second | 2-4 weeks | 20,000x |
 | **Embeddings Generated** | 15,000 total | Manual matching | N/A |
@@ -107,7 +109,7 @@ This approach reduces 10,000 × 5,000 = 50M potential comparisons to just 10,000
 - **Patient Profiles**: 50,000 comprehensive clinical profiles
 - **Patient Embeddings**: 10,000 strategically selected (768-dimensional)
 - **Trial Embeddings**: 5,000 with therapeutic diversity
-- **Temporal Data**: 145,914 patients with 2025-normalized timestamps
+- **Temporal Data**: 364,627 patients with 2025-normalized timestamps
 - **Lab Results**: 40,196,218 laboratory events processed
 - **Medications**: 16,688,109 medication records analyzed
 - **Radiology**: 2,321,355 imaging reports integrated
@@ -188,26 +190,30 @@ We demonstrated AI.GENERATE capabilities with a cost-effective hybrid approach:
 
 ### Repository Structure
 ```
-SUBMISSION/
-├── sql_files/           # 10 comprehensive SQL scripts
-├── python_files/        # 13 Python implementation files
-├── notebooks/           # Jupyter demonstrations
-└── documentation/       # Complete technical docs
+BigQueryAI_TrialMatch/
+├── demo_judge_complete.ipynb  # Main competition notebook (self-contained)
+├── sql_files/                 # 11 comprehensive SQL scripts
+├── python_files/              # 9 Python implementation files
+├── notebooks/                 # Additional Jupyter demonstrations
+├── config/                    # Configuration management
+├── exported_data/             # Auto-downloaded by notebook (~116MB)
+└── documentation/             # Complete technical docs
 ```
 
 ### Key Components
-- **Temporal Transformation**: `temporal_transformation_2025.py`
-- **Vector Search**: `vector_search_optimized.py`
-- **Patient Import**: `import_all_mimic_patients.py`
-- **Trial Import**: `import_all_clinical_trials.py`
-- **Feature Extraction**: `demo_full_feature_extraction.py`
+- **Main Notebook**: `demo_judge_complete.ipynb` - Self-contained demo with auto-download
+- **Temporal Transformation**: `python_files/temporal_transformation_2025.py`
+- **Vector Search**: `python_files/vector_search_optimized.py`
+- **Patient Import**: `python_files/import_all_mimic_patients.py`
+- **Trial Import**: `python_files/import_clinical_trials_comprehensive.py`
+- **Embeddings**: `python_files/generate_embeddings.py`
 
-### External Resources
-- **Survey Response**: Complete project survey available in SURVEY_RESPONSES.md
-- **Medium Article**: [Technical Deep Dive - To be published]
-- **Gamma Presentation**: [Visual Demo - Web version ready]
-- **API Documentation**: FastAPI endpoints documented
-- **GitHub Repository**: Complete implementation code
+### Resources and Documentation
+- **Survey Response**: Complete project survey available in [`SURVEY_RESPONSES.md`](SURVEY_RESPONSES.md)
+- **Main Demo Notebook**: [`demo_judge_complete.ipynb`](demo_judge_complete.ipynb) - Runnable without credentials
+- **Data Access**: See [`DATA_ACCESS_INSTRUCTIONS.md`](DATA_ACCESS_INSTRUCTIONS.md)
+- **Configuration Guide**: [`config/README.md`](config/README.md)
+- **GitHub Repository**: This repository contains the complete implementation
 
 ## Future Work
 
@@ -231,7 +237,7 @@ SUBMISSION/
 
 ## Conclusion
 
-We successfully demonstrated how BigQuery 2025's advanced features can revolutionize clinical trial matching. By processing 145,914 patients and 66,966 trials with sub-second latency, we've proven that enterprise-scale healthcare AI is not just possible but practical. Our solution showcases:
+We successfully demonstrated how BigQuery 2025's advanced features can revolutionize clinical trial matching. By processing 364,627 patients and 66,966 trials with sub-second latency, we've proven that enterprise-scale healthcare AI is not just possible but practical. Our solution showcases:
 
 - **All required BigQuery 2025 features** (Vector Search, AI Functions, BigFrames)
 - **Real healthcare data** from MIMIC-IV (properly anonymized)

@@ -193,7 +193,8 @@ SUBMISSION/
 │   └── performance_metrics.json
 ├── sql_files/               # For users with MIMIC access
 ├── demo_bigquery_2025.ipynb # Works with both modes
-└── export_all_data.py       # Script that generated the data
+└── python_files/
+    └── export_all_data.py   # Script that generated the data
 ```
 
 ---

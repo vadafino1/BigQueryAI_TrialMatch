@@ -1,10 +1,18 @@
 # BigQuery 2025 Clinical Trial Matching System
 
-**Competition Winner Solution** - Semantic Detective Approach with TreeAH Vector Search
+**Kaggle BigQuery 2025 Hackathon Submission** - Semantic Detective Approach with TreeAH Vector Search
 
 ## 🏆 Overview
 
 This solution implements a production-ready clinical trial matching system using BigQuery 2025's cutting-edge features. It processes **364,627 MIMIC-IV patients** against **66,966 clinical trials** using native vector search, AI functions, and BigFrames integration.
+
+## 📓 Competition Notebook
+
+**Main Submission Notebook**: [`demo_judge_complete.ipynb`](demo_judge_complete.ipynb)
+- ✅ Self-contained and runnable without BigQuery credentials
+- ✅ Auto-downloads all necessary data (~116MB)
+- ✅ Demonstrates all required BigQuery 2025 features
+- ✅ Shows 200,000 real patient-trial matches
 
 ### Key Achievements
 - **95% Match Accuracy** (up from 78% after critical bug fix)
