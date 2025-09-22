@@ -235,6 +235,14 @@ BigQueryAI_TrialMatch/
 3. **API Gateway**: Add rate limiting and authentication
 4. **Monitoring**: Enhanced observability with Cloud Monitoring
 
+## Publications and Media
+
+### Medium Article
+**"Clinical Trial Matching at Scale with BigQuery 2025"**
+- **Publication**: Medium
+- **Link**: https://medium.com/@adafinoaiei.victor/clinical-trial-matching-at-scale-with-bigquery-2025-df8fa8ee1e4c
+- **Description**: A comprehensive public-facing overview of our clinical trial matching system, highlighting the real-world impact and technical innovations achieved using BigQuery 2025's advanced features. The article provides accessible insights into how our solution addresses the $125 billion annual challenge of clinical trial recruitment.
+
 ## Conclusion
 
 We successfully demonstrated how BigQuery 2025's advanced features can revolutionize clinical trial matching. By processing 364,627 patients and 66,966 trials with sub-second latency, we've proven that enterprise-scale healthcare AI is not just possible but practical. Our solution showcases:

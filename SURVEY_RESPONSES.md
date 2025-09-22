@@ -10,36 +10,18 @@
 
 ### 1. Please tell us how many months of experience with BigQuery AI each team member has.
 
-**Team Member 1 (Lead Developer):**
-- BigQuery experience: 18 months
-- BigQuery AI features (ML.GENERATE_TEXT, VECTOR_SEARCH): 6 months
-- Previous projects: Healthcare analytics, genomics data processing
-
-**Team Member 2 (Data Engineer):**
-- BigQuery experience: 24 months
-- BigQuery AI features: 3 months (started with this competition)
-- Focus areas: Data pipelines, ETL processes, performance optimization
-
-**Team Member 3 (ML Engineer):**
-- BigQuery experience: 12 months
-- BigQuery AI features: 4 months
-- Specialization: Embeddings, vector search, semantic similarity
+**Victor Adafinoaiei:**
+- BigQuery experience: 0 months (first time using BigQuery)
+- BigQuery AI features (ML.GENERATE_TEXT, VECTOR_SEARCH): 0 months (learned during this competition)
+- Previous experience: Healthcare, ethics and compliance
 
 ---
 
 ### 2. Please tell us how many months of experience with Google Cloud each team member has.
 
-**Team Member 1 (Lead Developer):**
-- Google Cloud Platform: 36 months
-- Services used: BigQuery, Vertex AI, Cloud Run, Cloud Storage, Pub/Sub
-
-**Team Member 2 (Data Engineer):**
-- Google Cloud Platform: 48 months
-- Services used: BigQuery, Dataflow, Cloud Composer, Cloud Functions
-
-**Team Member 3 (ML Engineer):**
-- Google Cloud Platform: 24 months
-- Services used: Vertex AI, BigQuery ML, AI Platform, Cloud Storage
+**Victor Adafinoaiei:**
+- Google Cloud Platform: 0 months (first time using Google Cloud)
+- Services used: BigQuery (learned during this competition)
 
 ---
 
@@ -58,6 +40,9 @@ The new AI.GENERATE family of functions (AI.GENERATE_TEXT, AI.GENERATE_TABLE) ma
 
 ### 4. BigFrames Python API
 BigFrames provided a familiar pandas interface while leveraging BigQuery's distributed computing. This was particularly useful for data scientists on our team who could work with their preferred tools.
+
+### 5. MIMIC-IV Data Integration
+One of the most impressive aspects was how seamlessly MIMIC-IV data was available in BigQuery after completing the PhysioNet training. The integration was incredibly smooth - we could immediately create tables and process the healthcare data without complex ETL pipelines. This made it possible to focus on the AI/ML aspects rather than data infrastructure challenges.
 
 ## Challenges and Areas for Improvement
 
@@ -83,6 +68,7 @@ It was sometimes difficult to predict costs for AI operations (embeddings, LLM c
 3. **Explainable AI**: Built-in functions to explain similarity scores and match reasoning
 4. **Vector Index Monitoring**: Dashboard to monitor index performance and optimization suggestions
 5. **Batch AI Operations**: More efficient batching for AI.GENERATE operations
+6. **Multimodal Healthcare Applications**: While we didn't have time to explore this during the competition, the potential for multimodal experiences combining medical imaging, clinical text, and structured data represents an exciting future direction for BigQuery AI in healthcare
 
 ## Overall Assessment
 
@@ -94,6 +80,6 @@ We're excited to see these features reach general availability and look forward 
 
 ---
 
-**Submitted by**: Clinical AI Innovators Team
+**Submitted by**: Victor Adafinoaiei
 **Date**: September 2025
 **Competition**: BigQuery AI - Building the Future of Data

@@ -248,10 +248,16 @@ python scripts/monitor_pipeline.py
 
 ## 📚 Documentation
 
+- **Technical Writeup**: [`KAGGLE_WRITEUP.md`](KAGGLE_WRITEUP.md) - Complete technical overview and results
+- **Survey Responses**: [`SURVEY_RESPONSES.md`](SURVEY_RESPONSES.md) - Competition survey responses
+- **Data Access**: [`DATA_ACCESS_INSTRUCTIONS.md`](DATA_ACCESS_INSTRUCTIONS.md) - PhysioNet and data setup guide
 - **Architecture**: See `docs/ARCHITECTURE.md`
 - **BigQuery 2025 Features**: See `docs/BIGQUERY_2025_FEATURES.md`
 - **API Reference**: See `docs/API_REFERENCE.md`
 - **Performance Tuning**: See `docs/PERFORMANCE.md`
+
+### Publications and Media
+- **Medium Article**: [Clinical Trial Matching at Scale with BigQuery 2025](https://medium.com/@adafinoaiei.victor/clinical-trial-matching-at-scale-with-bigquery-2025-df8fa8ee1e4c) - Public-facing overview of the project's impact and technical innovations
 
 ## 🏁 Competition Submission
 
