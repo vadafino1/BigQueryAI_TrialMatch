@@ -18,12 +18,12 @@ This submission works for TWO types of users:
 2. **Run the notebook** (Choose one):
    - **Option A: Auto-Download Notebook** (Recommended for Judges)
      ```bash
-     jupyter notebook demo_judge_complete.ipynb
+     python demo_complete_test.py
      # This notebook auto-downloads data if not present
      ```
    - **Option B: Manual Setup**
      ```python
-     # Set at the beginning of demo_bigquery_2025.ipynb
+     # Set at the beginning of demo_complete_test.py
      USE_BIGQUERY = False  # Use exported data
      DATA_PATH = "./exported_data/"  # Local path after download
      ```
@@ -79,7 +79,7 @@ This submission works for TWO types of users:
 1. **Clone the repository**:
    ```bash
    git clone [repository-url]
-   cd SUBMISSION
+   cd BigQueryAI_TrialMatch
    ```
 
 2. **Update project ID in SQL files**:
@@ -98,7 +98,7 @@ This submission works for TWO types of users:
 
 4. **Run notebook with live data**:
    ```python
-   # Set in demo_bigquery_2025.ipynb
+   # Set in demo_complete_test.py
    USE_BIGQUERY = True  # Use live BigQuery
    PROJECT_ID = 'YOUR_PROJECT_ID'
    ```
@@ -185,14 +185,14 @@ Each match includes an explanation:
 
 ### File Structure
 ```
-SUBMISSION/
+BigQueryAI_TrialMatch/
 ├── exported_data/           # Complete dataset (114 MB)
 │   ├── all_matches.csv
 │   ├── all_patient_embeddings.parquet
 │   ├── all_trial_embeddings.parquet
 │   └── performance_metrics.json
 ├── sql_files/               # For users with MIMIC access
-├── demo_bigquery_2025.ipynb # Works with both modes
+├── demo_complete_test.py    # Works with both modes
 └── python_files/
     └── export_all_data.py   # Script that generated the data
 ```

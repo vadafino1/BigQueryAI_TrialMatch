@@ -37,7 +37,7 @@ This solution implements a production-ready clinical trial matching system using
 1. **Clone and Setup**
 ```bash
 git clone [repository]
-cd SUBMISSION
+cd BigQueryAI_TrialMatch
 
 # Install dependencies
 pip install -r setup/requirements.txt
