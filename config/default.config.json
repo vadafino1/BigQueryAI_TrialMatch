@@ -1,0 +1,93 @@
+{
+  "gcp": {
+    "project_id": "gen-lang-client-0017660547",
+    "region": "us-central1",
+    "dataset_id": "clinical_trial_matching",
+    "service_account": "adafinoaiei.victor@gmail.com"
+  },
+  "bigquery": {
+    "location": "us-central1",
+    "tables": {
+      "patients": "patient_current_status_2025",
+      "trials": "trials_comprehensive",
+      "matches": "match_scores_real",
+      "patient_embeddings": "patient_embeddings",
+      "trial_embeddings": "trial_embeddings",
+      "discharge_summaries": "discharge_summaries_2025",
+      "lab_events": "lab_events_2025",
+      "medications": "medications_2025",
+      "radiology_reports": "radiology_reports_2025"
+    },
+    "batch_size": 50000,
+    "max_workers": 10,
+    "timeout": 600
+  },
+  "mimic": {
+    "project": "physionet-data",
+    "dataset": "mimiciv_hosp",
+    "version": "2.2",
+    "tables": {
+      "patients": "patients",
+      "admissions": "admissions",
+      "diagnoses": "diagnoses_icd",
+      "procedures": "procedures_icd",
+      "labevents": "labevents",
+      "prescriptions": "prescriptions"
+    }
+  },
+  "clinical_trials": {
+    "api_base": "https://clinicaltrials.gov/api/v2",
+    "max_results_per_query": 1000,
+    "batch_size": 100
+  },
+  "api": {
+    "port": 8001,
+    "host": "0.0.0.0",
+    "cloud_run_url": "https://secure-bigquery-api-670960352209.us-central1.run.app",
+    "api_key": "demo-key-basic",
+    "cors_origins": ["*"],
+    "max_results": 100
+  },
+  "temporal": {
+    "current_date": "2025-09-20",
+    "normalization_years": 100,
+    "active_window_days": 30,
+    "recent_window_days": 90,
+    "historical_window_days": 365
+  },
+  "ml": {
+    "embedding_model": "gemini-embedding-001",
+    "embedding_dim": 768,
+    "vertex_ai_location": "us-central1",
+    "batch_size": 100,
+    "gemini_model": "gemini-2.5-flash-lite",
+    "temperature": 0.1
+  },
+  "vector_search": {
+    "index_type": "TREE_AH",
+    "num_leaves": 500,
+    "fraction_lists_to_search": 0.05,
+    "target_recall": 0.95,
+    "enable_soar": true,
+    "distance_metric": "COSINE"
+  },
+  "paths": {
+    "sql_dir": "sql",
+    "python_dir": "python",
+    "notebooks_dir": "notebooks",
+    "docs_dir": "docs",
+    "data_dir": "data",
+    "logs_dir": "logs"
+  },
+  "performance": {
+    "target_latency_ms": 100,
+    "cache_ttl_seconds": 300,
+    "max_cache_size_mb": 1000
+  },
+  "monitoring": {
+    "enable_logging": true,
+    "log_level": "INFO",
+    "metrics_enabled": true,
+    "alert_email": ""
+  }
+}
