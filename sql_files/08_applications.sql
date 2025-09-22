@@ -19,7 +19,7 @@
 -- CONFIGURATION VARIABLES
 -- ============================================================================
 -- IMPORTANT: Replace with your actual project ID or set as environment variable
-DECLARE PROJECT_ID STRING DEFAULT 'gen-lang-client-0017660547';
+DECLARE PROJECT_ID STRING DEFAULT 'YOUR_PROJECT_ID';
 DECLARE DATASET_ID STRING DEFAULT 'clinical_trial_matching';
 
 -- ============================================================================
@@ -69,7 +69,7 @@ SELECT
       'Trial: ', trial_title, '\n',
       'Patient condition: ', patient_diagnosis
     ),
-    connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+    connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
     endpoint => 'gemini-2.5-flash-lite',
     model_params => JSON '{"temperature": 0.7, "maxOutputTokens": 50}'
   ).result AS email_subject,
@@ -95,7 +95,7 @@ SELECT
       '5. Keep under 200 words\n',
       '6. End with encouraging tone'
     ),
-    connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+    connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
     endpoint => 'gemini-2.5-flash-lite',
     model_params => JSON '{"temperature": 0.8, "maxOutputTokens": 300}'
   ).result AS email_body,
@@ -108,7 +108,7 @@ SELECT
       'Trial: ', trial_title, ' (', trial_phase, ')\n',
       'Format as bullet points.'
     ),
-    connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+    connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
     endpoint => 'gemini-2.5-flash-lite',
     model_params => JSON '{"temperature": 0.5, "maxOutputTokens": 150}'
   ).result AS coordinator_talking_points,
@@ -119,7 +119,7 @@ SELECT
       'Write a brief, friendly SMS message (under 160 characters) to remind a patient about the clinical trial opportunity.\n',
       'Trial area: ', therapeutic_area
     ),
-    connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+    connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
     endpoint => 'gemini-2.5-flash-lite',
     model_params => JSON '{"temperature": 0.7, "maxOutputTokens": 40}'
   ).result AS sms_reminder,
@@ -297,7 +297,7 @@ SELECT
       'Be compassionate and respectful.\n',
       'Include signature lines at the end.'
     ),
-    connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+    connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
     endpoint => 'gemini-2.5-flash-lite',
     model_params => JSON '{"temperature": 0.3, "maxOutputTokens": 800}'
   ).result AS consent_form_text,
@@ -310,7 +310,7 @@ SELECT
       '- Area: ', therapeutic_area, '\n',
       'Focus on: main purpose, key procedures, and participant rights.'
     ),
-    connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+    connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
     endpoint => 'gemini-2.5-flash-lite',
     model_params => JSON '{"temperature": 0.5, "maxOutputTokens": 150}'
   ).result AS consent_summary,
@@ -318,7 +318,7 @@ SELECT
   -- Generate witness acknowledgment text
   AI.GENERATE(
     prompt => 'Generate a brief witness acknowledgment statement for a clinical trial consent form (2 sentences).',
-    connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+    connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
     endpoint => 'gemini-2.5-flash-lite',
     model_params => JSON '{"temperature": 0.3, "maxOutputTokens": 50}'
   ).result AS witness_statement,
@@ -416,7 +416,7 @@ SELECT
       '- Average Match Quality: ', ROUND(avg_match_quality * 100, 1), '%\n\n',
       'Provide a 3-sentence executive summary highlighting strengths and opportunities.'
     ),
-    connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+    connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
     endpoint => 'gemini-2.5-flash-lite',
     model_params => JSON '{"temperature": 0.3, "maxOutputTokens": 150}'
   ).result AS executive_summary,
@@ -430,7 +430,7 @@ SELECT
       '- Average Match Quality: ', ROUND(avg_match_quality * 100, 1), '%\n\n',
       'Format as numbered list with specific actions.'
     ),
-    connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+    connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
     endpoint => 'gemini-2.5-flash-lite',
     model_params => JSON '{"temperature": 0.5, "maxOutputTokens": 200}'
   ).result AS strategic_recommendations,

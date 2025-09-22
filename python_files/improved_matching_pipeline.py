@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class MatchingConfig:
     """Configuration for the matching pipeline"""
-    project_id: str = "gen-lang-client-0017660547"
+    project_id: str = "YOUR_PROJECT_ID"
     dataset_id: str = "clinical_trial_matching"
 
     # Stage 1: Semantic Retrieval

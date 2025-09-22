@@ -11,9 +11,9 @@ import requests
 import json
 
 # Configuration
-PROJECT_ID = "gen-lang-client-0017660547"
+PROJECT_ID = "YOUR_PROJECT_ID"
 DATASET_ID = "clinical_trial_matching"
-API_BASE = "https://secure-bigquery-api-670960352209.us-central1.run.app"
+API_BASE = "https://secure-bigquery-api-YOUR_PROJECT_NUMBER.us-central1.run.app"
 API_KEY = "demo-key-basic"
 
 def test_bigquery_direct_access():

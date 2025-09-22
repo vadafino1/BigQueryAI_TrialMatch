@@ -10,8 +10,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 def main():
-    client = bigquery.Client(project='gen-lang-client-0017660547')
-    project_id = 'gen-lang-client-0017660547'
+    client = bigquery.Client(project='YOUR_PROJECT_ID')
+    project_id = 'YOUR_PROJECT_ID'
     
     logger.info("🚀 SIMPLE MATCHING PIPELINE FOR COMPETITION")
     logger.info("=" * 60)

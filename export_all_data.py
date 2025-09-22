@@ -15,7 +15,7 @@ import pyarrow.parquet as pq
 import pyarrow as pa
 
 # Configuration
-PROJECT_ID = 'gen-lang-client-0017660547'
+PROJECT_ID = 'YOUR_PROJECT_ID'
 DATASET_ID = 'clinical_trial_matching'
 EXPORT_DIR = 'exported_data'
 

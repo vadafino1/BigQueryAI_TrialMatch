@@ -21,7 +21,7 @@ class ClinicalTrialsImporter:
     def __init__(self):
         credentials, _ = default()
         self.client = bigquery.Client(
-            project="gen-lang-client-0017660547",
+            project="YOUR_PROJECT_ID",
             credentials=credentials,
             location="US"
         )
@@ -380,7 +380,7 @@ class ClinicalTrialsImporter:
                 continue
 
         # Create table with schema
-        table_id = "gen-lang-client-0017660547.clinical_trial_matching.trials_comprehensive"
+        table_id = "YOUR_PROJECT_ID.clinical_trial_matching.trials_comprehensive"
 
         schema = [
             bigquery.SchemaField("nct_id", "STRING", mode="REQUIRED"),
@@ -480,7 +480,7 @@ class ClinicalTrialsImporter:
         # Create summary view
         logger.info("Creating summary view...")
         query = """
-        CREATE OR REPLACE VIEW `gen-lang-client-0017660547.clinical_trial_matching.trials_summary` AS
+        CREATE OR REPLACE VIEW `YOUR_PROJECT_ID.clinical_trial_matching.trials_summary` AS
         SELECT
             COUNT(*) as total_trials,
             SUM(CAST(is_oncology_trial AS INT64)) as oncology_trials,
@@ -493,14 +493,14 @@ class ClinicalTrialsImporter:
             SUM(CASE WHEN creatinine_max IS NOT NULL THEN 1 ELSE 0 END) as trials_with_creatinine_req,
             AVG(CASE WHEN min_age_years IS NOT NULL THEN min_age_years END) as avg_min_age,
             AVG(CASE WHEN max_age_years IS NOT NULL THEN max_age_years END) as avg_max_age
-        FROM `gen-lang-client-0017660547.clinical_trial_matching.trials_comprehensive`
+        FROM `YOUR_PROJECT_ID.clinical_trial_matching.trials_comprehensive`
         """
 
         job = self.client.query(query)
         job.result()
 
         # Get summary stats
-        stats_query = "SELECT * FROM `gen-lang-client-0017660547.clinical_trial_matching.trials_summary`"
+        stats_query = "SELECT * FROM `YOUR_PROJECT_ID.clinical_trial_matching.trials_summary`"
         stats = list(self.client.query(stats_query).result())[0]
 
         print(f"""

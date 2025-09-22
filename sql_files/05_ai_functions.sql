@@ -17,7 +17,7 @@
 -- CONFIGURATION VARIABLES
 -- ============================================================================
 -- IMPORTANT: Replace with your actual project ID or set as environment variable
-DECLARE PROJECT_ID STRING DEFAULT 'gen-lang-client-0017660547';
+DECLARE PROJECT_ID STRING DEFAULT 'YOUR_PROJECT_ID';
 DECLARE DATASET_ID STRING DEFAULT 'clinical_trial_matching';
 
 -- ============================================================================
@@ -73,7 +73,7 @@ SELECT
           'Phase: ', phase, '\n',
           'Eligibility: ', SUBSTR(eligibility_criteria, 1, 1000)
         )),
-        connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+        connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
         endpoint => 'gemini-2.5-flash-lite',
         model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
       ).result,
@@ -89,7 +89,7 @@ SELECT
           'Answer ONLY "true" or "false" without any explanation: Based on the eligibility criteria, is a ', age, ' year old patient within the age range?\n',
           'Criteria: ', SUBSTR(eligibility_criteria, 1, 500)
         )),
-        connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+        connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
         endpoint => 'gemini-2.5-flash-lite',
         model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
       ).result,
@@ -107,7 +107,7 @@ SELECT
           'Patient conditions: ', conditions_str, '\n',
           'Trial criteria: ', SUBSTR(eligibility_criteria, 1, 500)
         )),
-        connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+        connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
         endpoint => 'gemini-2.5-flash-lite',
         model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
       ).result,
@@ -123,7 +123,7 @@ SELECT
           'Answer ONLY "true" or "false" without any explanation: Does this trial require prior therapy that the patient may not have? Answer true if uncertain.\n',
           'Trial criteria: ', SUBSTR(eligibility_criteria, 1, 500)
         )),
-        connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+        connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
         endpoint => 'gemini-2.5-flash-lite',
         model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
       ).result,
@@ -161,7 +161,7 @@ SELECT
             'Extract the patient age in years from this text. Return ONLY the number, no units or explanations:\n',
             'Text: ', SUBSTR(discharge_summary, 1, 500)
           )),
-          connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+          connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
           endpoint => 'gemini-2.5-flash-lite',
           model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
         ).result,
@@ -180,7 +180,7 @@ SELECT
             'How many prior treatments or therapies are mentioned? Return ONLY the count number:\n',
             'Text: ', SUBSTR(discharge_summary, 1, 1000)
           )),
-          connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+          connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
           endpoint => 'gemini-2.5-flash-lite',
           model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
         ).result,
@@ -199,7 +199,7 @@ SELECT
             'Extract the length of hospital stay in days. Return ONLY the number:\n',
             'Text: ', SUBSTR(discharge_summary, 1, 500)
           )),
-          connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+          connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
           endpoint => 'gemini-2.5-flash-lite',
           model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
         ).result,
@@ -218,7 +218,7 @@ SELECT
             'Count the number of distinct medical conditions or comorbidities mentioned. Return ONLY the count number:\n',
             'Diagnosis: ', discharge_diagnosis
           )),
-          connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+          connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
           endpoint => 'gemini-2.5-flash-lite',
           model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
         ).result,
@@ -261,7 +261,7 @@ SELECT
             'Extract the creatinine value in mg/dL from this text. Return ONLY the numeric value with decimal if present:\n',
             'Text: ', SUBSTR(discharge_summary, 1, 1000)
           )),
-          connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+          connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
           endpoint => 'gemini-2.5-flash-lite',
           model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 15}'
         ).result,
@@ -280,7 +280,7 @@ SELECT
             'Extract the hemoglobin value in g/dL from this text. Return ONLY the numeric value with decimal if present:\n',
             'Text: ', SUBSTR(discharge_summary, 1, 1000)
           )),
-          connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+          connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
           endpoint => 'gemini-2.5-flash-lite',
           model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 15}'
         ).result,
@@ -299,7 +299,7 @@ SELECT
             'Extract the glucose value in mg/dL from this text. Return ONLY the numeric value with decimal if present:\n',
             'Text: ', SUBSTR(discharge_summary, 1, 1000)
           )),
-          connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+          connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
           endpoint => 'gemini-2.5-flash-lite',
           model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 15}'
         ).result,
@@ -318,7 +318,7 @@ SELECT
             'Extract the BMI (Body Mass Index) value from this text. Return ONLY the numeric value with decimal if present:\n',
             'Text: ', SUBSTR(discharge_summary, 1, 1000)
           )),
-          connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+          connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
           endpoint => 'gemini-2.5-flash-lite',
           model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 15}'
         ).result,
@@ -337,7 +337,7 @@ SELECT
             'Extract the systolic blood pressure value from this text. Return ONLY the numeric value:\n',
             'Text: ', SUBSTR(discharge_summary, 1, 1000)
           )),
-          connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+          connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
           endpoint => 'gemini-2.5-flash-lite',
           model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 15}'
         ).result,
@@ -383,7 +383,7 @@ SELECT
       'Medications: ', medications, '\n',
       'Risk Category: ', risk_category
     )),
-    connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+    connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
     endpoint => 'gemini-2.5-flash-lite',
     model_params => JSON '{"temperature": 0.3, "maxOutputTokens": 150}'
   ).result AS clinical_summary,
@@ -396,7 +396,7 @@ SELECT
       'Conditions: ', conditions, '\n',
       'Current medications: ', medications
     )),
-    connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+    connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
     endpoint => 'gemini-2.5-flash-lite',
     model_params => JSON '{"temperature": 0.5, "maxOutputTokens": 200}'
   ).result AS trial_recommendations,
@@ -408,7 +408,7 @@ SELECT
       'Age: ', age, ', Primary condition: ', primary_diagnosis, '\n',
       'Risk: ', risk_category, ', Readiness: ', trial_readiness
     )),
-    connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+    connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
     endpoint => 'gemini-2.5-flash-lite',
     model_params => JSON '{"temperature": 0.2, "maxOutputTokens": 100}'
   ).result AS eligibility_considerations,
@@ -433,7 +433,7 @@ SELECT
         'Extract the inclusion criteria as a JSON array with objects containing: criterion_type, description, required_value. Return ONLY valid JSON:\n',
         'Text: ', SUBSTR(eligibility_criteria_full, 1, 2000)
       )),
-      connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+      connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
       endpoint => 'gemini-2.5-flash-lite',
       model_params => JSON '{"temperature": 0.1, "maxOutputTokens": 500}'
     ).result
@@ -446,7 +446,7 @@ SELECT
         'Extract the exclusion criteria as a JSON array with objects containing: criterion_type, description, threshold. Return ONLY valid JSON:\n',
         'Text: ', SUBSTR(eligibility_criteria_full, 1, 2000)
       )),
-      connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+      connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
       endpoint => 'gemini-2.5-flash-lite',
       model_params => JSON '{"temperature": 0.1, "maxOutputTokens": 500}'
     ).result
@@ -485,7 +485,7 @@ SELECT
           'Answer ONLY "true" or "false" without any explanation: Does this text indicate EGFR mutation positive status?\n',
           'Text: ', SUBSTR(discharge_summary, 1, 1000)
         )),
-        connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+        connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
         endpoint => 'gemini-2.5-flash-lite',
         model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
       ).result,
@@ -500,7 +500,7 @@ SELECT
           'Answer ONLY "true" or "false" without any explanation: Does this text indicate ALK rearrangement positive?\n',
           'Text: ', SUBSTR(discharge_summary, 1, 1000)
         )),
-        connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+        connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
         endpoint => 'gemini-2.5-flash-lite',
         model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
       ).result,
@@ -515,7 +515,7 @@ SELECT
           'Answer ONLY "true" or "false" without any explanation: Does this text indicate PD-L1 expression positive?\n',
           'Text: ', SUBSTR(discharge_summary, 1, 1000)
         )),
-        connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+        connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
         endpoint => 'gemini-2.5-flash-lite',
         model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
       ).result,
@@ -530,7 +530,7 @@ SELECT
           'Answer ONLY "true" or "false" without any explanation: Does this text indicate HER2 positive status?\n',
           'Text: ', SUBSTR(discharge_summary, 1, 1000)
         )),
-        connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+        connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
         endpoint => 'gemini-2.5-flash-lite',
         model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
       ).result,
@@ -545,7 +545,7 @@ SELECT
           'Answer ONLY "true" or "false" without any explanation: Does this text indicate metastatic disease?\n',
           'Text: ', SUBSTR(discharge_diagnosis, 1, 500)
         )),
-        connection_id => 'gen-lang-client-0017660547.US.vertex_ai_connection',
+        connection_id => 'YOUR_PROJECT_ID.US.vertex_ai_connection',
         endpoint => 'gemini-2.5-flash-lite',
         model_params => JSON '{"temperature": 0.0, "maxOutputTokens": 10}'
       ).result,

@@ -16,7 +16,7 @@
 -- CONFIGURATION VARIABLES
 -- ============================================================================
 -- IMPORTANT: Replace with your actual project ID or set as environment variable
-DECLARE PROJECT_ID STRING DEFAULT 'gen-lang-client-0017660547';
+DECLARE PROJECT_ID STRING DEFAULT 'YOUR_PROJECT_ID';
 DECLARE DATASET_ID STRING DEFAULT 'clinical_trial_matching';
 
 -- ============================================================================
@@ -159,12 +159,12 @@ from google.cloud import bigquery
 import pandas as pd
 
 # Configure BigFrames
-bigframes.options.bigquery.project = "gen-lang-client-0017660547"
+bigframes.options.bigquery.project = "YOUR_PROJECT_ID"
 bigframes.options.bigquery.location = "US"
 
 class BigFramesCompetitionIntegration:
     def __init__(self):
-        self.project_id = "gen-lang-client-0017660547"
+        self.project_id = "YOUR_PROJECT_ID"
         self.dataset_id = "clinical_trial_matching"
         self.connection_id = f"{self.project_id}.US.vertex_ai_connection"
 

@@ -17,7 +17,7 @@ from typing import Dict, Any
 
 # Constants
 CURRENT_DATE = date(2025, 9, 20)
-PROJECT_ID = "gen-lang-client-0017660547"
+PROJECT_ID = "YOUR_PROJECT_ID"
 DATASET_ID = "clinical_trial_matching"
 
 logging.basicConfig(

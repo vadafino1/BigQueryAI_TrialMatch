@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class VectorSearchConfig:
     """Configuration for optimized vector search"""
-    project_id: str = "gen-lang-client-0017660547"
+    project_id: str = "YOUR_PROJECT_ID"
     dataset_id: str = "clinical_trial_matching"
 
     # TreeAH parameters

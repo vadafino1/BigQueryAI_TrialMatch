@@ -19,7 +19,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configuration
-PROJECT_ID = "gen-lang-client-0017660547"
+PROJECT_ID = "YOUR_PROJECT_ID"
 DATASET_ID = "clinical_trial_matching"
 LOCATION = "US"
 

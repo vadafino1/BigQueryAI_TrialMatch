@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 class CompleteClinicalTrialsImporter:
     """Import all clinical trials from ClinicalTrials.gov"""
 
-    def __init__(self, project_id: str = "gen-lang-client-0017660547"):
+    def __init__(self, project_id: str = "YOUR_PROJECT_ID"):
         self.project_id = project_id
         self.client = bigquery.Client(project=project_id)
         self.dataset_id = "clinical_trial_matching_complete"

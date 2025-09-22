@@ -22,11 +22,11 @@
 -- Fixed project references for BigQuery execution
 
 
-CREATE OR REPLACE TABLE `gen-lang-client-0017660547.clinical_trial_matching.enrollment_total_daily` AS
+CREATE OR REPLACE TABLE `YOUR_PROJECT_ID.clinical_trial_matching.enrollment_total_daily` AS
 SELECT
   DATE(admission_date_2025) AS enrollment_date,
   COUNT(DISTINCT patient_id) AS total_daily_enrollments
-FROM `gen-lang-client-0017660547.clinical_trial_matching.discharge_summaries_2025`
+FROM `YOUR_PROJECT_ID.clinical_trial_matching.discharge_summaries_2025`
 WHERE admission_date_2025 IS NOT NULL
   AND DATE(admission_date_2025) >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY)
   AND DATE(admission_date_2025) < CURRENT_DATE()
@@ -34,7 +34,7 @@ GROUP BY DATE(admission_date_2025)
 ORDER BY enrollment_date;
 
 -- Create ARIMA_PLUS model for single time series forecasting
-CREATE OR REPLACE MODEL `gen-lang-client-0017660547.clinical_trial_matching.arima_total_enrollment_model`
+CREATE OR REPLACE MODEL `YOUR_PROJECT_ID.clinical_trial_matching.arima_total_enrollment_model`
 OPTIONS(
   model_type = 'ARIMA_PLUS',
   time_series_timestamp_col = 'enrollment_date',
@@ -46,10 +46,10 @@ OPTIONS(
 SELECT
   enrollment_date,
   total_daily_enrollments
-FROM `gen-lang-client-0017660547.clinical_trial_matching.enrollment_total_daily`;
+FROM `YOUR_PROJECT_ID.clinical_trial_matching.enrollment_total_daily`;
 
 -- Generate forecasts using ML.FORECAST
-CREATE OR REPLACE TABLE `gen-lang-client-0017660547.clinical_trial_matching.forecast_total_enrollment` AS
+CREATE OR REPLACE TABLE `YOUR_PROJECT_ID.clinical_trial_matching.forecast_total_enrollment` AS
 SELECT
   forecast_timestamp,
   forecast_value,
@@ -58,7 +58,7 @@ SELECT
   prediction_interval_lower_bound,
   prediction_interval_upper_bound
 FROM ML.FORECAST(
-  MODEL `gen-lang-client-0017660547.clinical_trial_matching.arima_total_enrollment_model`,
+  MODEL `YOUR_PROJECT_ID.clinical_trial_matching.arima_total_enrollment_model`,
   STRUCT(
     30 AS horizon,  -- Forecast 30 days ahead
     0.95 AS confidence_level  -- 95% confidence interval
@@ -70,15 +70,15 @@ FROM ML.FORECAST(
 -- ============================================================================
 
 -- Prepare trial-specific enrollment data using REAL patient-trial matching patterns
-CREATE OR REPLACE TABLE `gen-lang-client-0017660547.clinical_trial_matching.enrollment_by_trial` AS
+CREATE OR REPLACE TABLE `YOUR_PROJECT_ID.clinical_trial_matching.enrollment_by_trial` AS
 WITH patient_trial_timeline AS (
   SELECT
     DATE(ds.admission_date_2025) AS enrollment_date,
     mc.trial_id,
     COUNT(DISTINCT mc.patient_id) AS daily_enrollments,
     COUNT(DISTINCT ds.patient_id) AS daily_screenings
-  FROM `gen-lang-client-0017660547.clinical_trial_matching.discharge_summaries_2025` ds
-  LEFT JOIN `gen-lang-client-0017660547.clinical_trial_matching.hybrid_match_scores` mc
+  FROM `YOUR_PROJECT_ID.clinical_trial_matching.discharge_summaries_2025` ds
+  LEFT JOIN `YOUR_PROJECT_ID.clinical_trial_matching.hybrid_match_scores` mc
     ON ds.patient_id = mc.patient_id AND mc.final_rank <= 5
   WHERE ds.admission_date_2025 IS NOT NULL
     AND DATE(ds.admission_date_2025) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
@@ -94,14 +94,14 @@ SELECT
 FROM patient_trial_timeline
 WHERE trial_id IN (
   SELECT nct_id
-  FROM `gen-lang-client-0017660547.clinical_trial_matching.trials_comprehensive`
+  FROM `YOUR_PROJECT_ID.clinical_trial_matching.trials_comprehensive`
   WHERE overall_status = 'RECRUITING'
   LIMIT 100  -- Top 100 recruiting trials with actual patient matches
 )
 ORDER BY trial_id, enrollment_date;
 
 -- Create ARIMA_PLUS model for multiple time series (by trial)
-CREATE OR REPLACE MODEL `gen-lang-client-0017660547.clinical_trial_matching.arima_by_trial_model`
+CREATE OR REPLACE MODEL `YOUR_PROJECT_ID.clinical_trial_matching.arima_by_trial_model`
 OPTIONS(
   model_type = 'ARIMA_PLUS',
   time_series_timestamp_col = 'enrollment_date',
@@ -115,10 +115,10 @@ SELECT
   enrollment_date,
   trial_id,
   daily_enrollments
-FROM `gen-lang-client-0017660547.clinical_trial_matching.enrollment_by_trial`;
+FROM `YOUR_PROJECT_ID.clinical_trial_matching.enrollment_by_trial`;
 
 -- Generate forecasts by trial using ML.FORECAST
-CREATE OR REPLACE TABLE `gen-lang-client-0017660547.clinical_trial_matching.forecast_by_trial` AS
+CREATE OR REPLACE TABLE `YOUR_PROJECT_ID.clinical_trial_matching.forecast_by_trial` AS
 SELECT
   trial_id,
   forecast_timestamp,
@@ -128,7 +128,7 @@ SELECT
   prediction_interval_lower_bound,
   prediction_interval_upper_bound
 FROM ML.FORECAST(
-  MODEL `gen-lang-client-0017660547.clinical_trial_matching.arima_by_trial_model`,
+  MODEL `YOUR_PROJECT_ID.clinical_trial_matching.arima_by_trial_model`,
   STRUCT(
     30 AS horizon,
     0.95 AS confidence_level
@@ -140,7 +140,7 @@ FROM ML.FORECAST(
 -- ============================================================================
 
 -- Create patient engagement time series using REAL MIMIC clinical activity patterns
-CREATE OR REPLACE TABLE `gen-lang-client-0017660547.clinical_trial_matching.patient_engagement_series` AS
+CREATE OR REPLACE TABLE `YOUR_PROJECT_ID.clinical_trial_matching.patient_engagement_series` AS
 WITH patient_activity AS (
   SELECT
     pp.patient_id,
@@ -159,14 +159,14 @@ WITH patient_activity AS (
       WHEN med_count >= 1 THEN 60
       ELSE 30
     END AS compliance_rate
-  FROM `gen-lang-client-0017660547.clinical_trial_matching.patient_profile` pp
-  LEFT JOIN `gen-lang-client-0017660547.clinical_trial_matching.discharge_summaries_2025` ds
+  FROM `YOUR_PROJECT_ID.clinical_trial_matching.patient_profile` pp
+  LEFT JOIN `YOUR_PROJECT_ID.clinical_trial_matching.discharge_summaries_2025` ds
     ON pp.patient_id = ds.patient_id
   LEFT JOIN (
     SELECT
       patient_id,
       COUNT(*) AS lab_count
-    FROM `gen-lang-client-0017660547.clinical_trial_matching.lab_events_2025`
+    FROM `YOUR_PROJECT_ID.clinical_trial_matching.lab_events_2025`
     WHERE days_since_test <= 30
     GROUP BY patient_id
   ) lab_activity USING (patient_id)
@@ -174,7 +174,7 @@ WITH patient_activity AS (
     SELECT
       patient_id,
       COUNT(*) AS med_count
-    FROM `gen-lang-client-0017660547.clinical_trial_matching.medications_2025`
+    FROM `YOUR_PROJECT_ID.clinical_trial_matching.medications_2025`
     WHERE is_currently_active
     GROUP BY patient_id
   ) med_activity USING (patient_id)
@@ -196,7 +196,7 @@ SELECT
 FROM patient_activity;
 
 -- Create ARIMA_PLUS model for patient engagement
-CREATE OR REPLACE MODEL `gen-lang-client-0017660547.clinical_trial_matching.arima_patient_engagement_model`
+CREATE OR REPLACE MODEL `YOUR_PROJECT_ID.clinical_trial_matching.arima_patient_engagement_model`
 OPTIONS(
   model_type = 'ARIMA_PLUS',
   time_series_timestamp_col = 'activity_date',
@@ -209,10 +209,10 @@ SELECT
   activity_date,
   patient_id,
   engagement_score
-FROM `gen-lang-client-0017660547.clinical_trial_matching.patient_engagement_series`;
+FROM `YOUR_PROJECT_ID.clinical_trial_matching.patient_engagement_series`;
 
 -- Forecast patient engagement
-CREATE OR REPLACE TABLE `gen-lang-client-0017660547.clinical_trial_matching.forecast_patient_engagement` AS
+CREATE OR REPLACE TABLE `YOUR_PROJECT_ID.clinical_trial_matching.forecast_patient_engagement` AS
 SELECT
   patient_id,
   forecast_timestamp,
@@ -227,7 +227,7 @@ SELECT
     ELSE 'LOW_DROPOUT_RISK'
   END AS predicted_risk_category
 FROM ML.FORECAST(
-  MODEL `gen-lang-client-0017660547.clinical_trial_matching.arima_patient_engagement_model`,
+  MODEL `YOUR_PROJECT_ID.clinical_trial_matching.arima_patient_engagement_model`,
   STRUCT(
     14 AS horizon,  -- 2-week prediction
     0.90 AS confidence_level
@@ -239,7 +239,7 @@ FROM ML.FORECAST(
 -- ============================================================================
 
 -- Create site recruitment metrics using REAL MIMIC geographic patient distribution
-CREATE OR REPLACE TABLE `gen-lang-client-0017660547.clinical_trial_matching.site_recruitment_series` AS
+CREATE OR REPLACE TABLE `YOUR_PROJECT_ID.clinical_trial_matching.site_recruitment_series` AS
 WITH patient_geographic_patterns AS (
   SELECT
     -- Create virtual sites based on patient ZIP/geographic clusters
@@ -256,8 +256,8 @@ WITH patient_geographic_patterns AS (
       WHEN AVG(pp.patient_risk_score) < 0.7 THEN 70 + CAST(15 * RAND() AS INT64)
       ELSE 50 + CAST(20 * RAND() AS INT64)
     END AS quality_score
-  FROM `gen-lang-client-0017660547.clinical_trial_matching.patient_profile` pp
-  JOIN `gen-lang-client-0017660547.clinical_trial_matching.discharge_summaries_2025` ds
+  FROM `YOUR_PROJECT_ID.clinical_trial_matching.patient_profile` pp
+  JOIN `YOUR_PROJECT_ID.clinical_trial_matching.discharge_summaries_2025` ds
     ON pp.patient_id = ds.patient_id
   WHERE ds.admission_date_2025 IS NOT NULL
     AND DATE(ds.admission_date_2025) >= DATE_SUB(CURRENT_DATE(), INTERVAL 120 DAY)
@@ -276,7 +276,7 @@ FROM patient_geographic_patterns
 ORDER BY site_id, metric_date;
 
 -- Create ARIMA_PLUS model for site performance
-CREATE OR REPLACE MODEL `gen-lang-client-0017660547.clinical_trial_matching.arima_site_performance_model`
+CREATE OR REPLACE MODEL `YOUR_PROJECT_ID.clinical_trial_matching.arima_site_performance_model`
 OPTIONS(
   model_type = 'ARIMA_PLUS',
   time_series_timestamp_col = 'metric_date',
@@ -289,10 +289,10 @@ SELECT
   metric_date,
   site_id,
   recruitment_rate
-FROM `gen-lang-client-0017660547.clinical_trial_matching.site_recruitment_series`;
+FROM `YOUR_PROJECT_ID.clinical_trial_matching.site_recruitment_series`;
 
 -- Forecast site recruitment performance
-CREATE OR REPLACE TABLE `gen-lang-client-0017660547.clinical_trial_matching.forecast_site_performance` AS
+CREATE OR REPLACE TABLE `YOUR_PROJECT_ID.clinical_trial_matching.forecast_site_performance` AS
 SELECT
   site_id,
   forecast_timestamp,
@@ -308,7 +308,7 @@ SELECT
     ELSE 'BELOW_TARGET'
   END AS performance_status
 FROM ML.FORECAST(
-  MODEL `gen-lang-client-0017660547.clinical_trial_matching.arima_site_performance_model`,
+  MODEL `YOUR_PROJECT_ID.clinical_trial_matching.arima_site_performance_model`,
   STRUCT(
     60 AS horizon,  -- 60-day forecast
     0.95 AS confidence_level
@@ -320,7 +320,7 @@ FROM ML.FORECAST(
 -- ============================================================================
 
 -- Create trial enrollment progress using REAL patient-trial matching data
-CREATE OR REPLACE TABLE `gen-lang-client-0017660547.clinical_trial_matching.trial_progress_series` AS
+CREATE OR REPLACE TABLE `YOUR_PROJECT_ID.clinical_trial_matching.trial_progress_series` AS
 WITH real_trial_enrollment AS (
   SELECT
     mc.trial_id,
@@ -339,10 +339,10 @@ WITH real_trial_enrollment AS (
       WHEN tc.phase LIKE '%Phase 4%' THEN 500
       ELSE 150
     END AS enrollment_target
-  FROM `gen-lang-client-0017660547.clinical_trial_matching.hybrid_match_scores` mc
-  JOIN `gen-lang-client-0017660547.clinical_trial_matching.discharge_summaries_2025` ds
+  FROM `YOUR_PROJECT_ID.clinical_trial_matching.hybrid_match_scores` mc
+  JOIN `YOUR_PROJECT_ID.clinical_trial_matching.discharge_summaries_2025` ds
     ON mc.patient_id = ds.patient_id
-  JOIN `gen-lang-client-0017660547.clinical_trial_matching.trials_comprehensive` tc
+  JOIN `YOUR_PROJECT_ID.clinical_trial_matching.trials_comprehensive` tc
     ON mc.trial_id = tc.nct_id
   WHERE ds.admission_date_2025 IS NOT NULL
     AND DATE(ds.admission_date_2025) >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY)
@@ -364,7 +364,7 @@ FROM real_trial_enrollment
 ORDER BY trial_id, progress_date;
 
 -- Create ARIMA_PLUS model for trial completion
-CREATE OR REPLACE MODEL `gen-lang-client-0017660547.clinical_trial_matching.arima_trial_completion_model`
+CREATE OR REPLACE MODEL `YOUR_PROJECT_ID.clinical_trial_matching.arima_trial_completion_model`
 OPTIONS(
   model_type = 'ARIMA_PLUS',
   time_series_timestamp_col = 'progress_date',
@@ -377,10 +377,10 @@ SELECT
   progress_date,
   trial_id,
   cumulative_enrolled
-FROM `gen-lang-client-0017660547.clinical_trial_matching.trial_progress_series`;
+FROM `YOUR_PROJECT_ID.clinical_trial_matching.trial_progress_series`;
 
 -- Forecast trial completion
-CREATE OR REPLACE TABLE `gen-lang-client-0017660547.clinical_trial_matching.forecast_trial_completion` AS
+CREATE OR REPLACE TABLE `YOUR_PROJECT_ID.clinical_trial_matching.forecast_trial_completion` AS
 WITH forecast_data AS (
   SELECT
     trial_id,
@@ -390,7 +390,7 @@ WITH forecast_data AS (
     prediction_interval_lower_bound,
     prediction_interval_upper_bound
   FROM ML.FORECAST(
-    MODEL `gen-lang-client-0017660547.clinical_trial_matching.arima_trial_completion_model`,
+    MODEL `YOUR_PROJECT_ID.clinical_trial_matching.arima_trial_completion_model`,
     STRUCT(
       180 AS horizon,  -- 6-month forecast
       0.95 AS confidence_level
@@ -408,7 +408,7 @@ SELECT
   CASE
     WHEN f.predicted_cumulative_enrolled >= (
       SELECT enrollment_target
-      FROM `gen-lang-client-0017660547.clinical_trial_matching.trial_progress_series`
+      FROM `YOUR_PROJECT_ID.clinical_trial_matching.trial_progress_series`
       WHERE trial_id = f.trial_id
       LIMIT 1
     ) THEN f.forecast_timestamp
@@ -421,7 +421,7 @@ FROM forecast_data f;
 -- ============================================================================
 
 -- Create ARIMA_PLUS model for comparison/fallback
-CREATE OR REPLACE MODEL `gen-lang-client-0017660547.clinical_trial_matching.arima_enrollment_model`
+CREATE OR REPLACE MODEL `YOUR_PROJECT_ID.clinical_trial_matching.arima_enrollment_model`
 OPTIONS(
   model_type = 'ARIMA_PLUS',
   time_series_timestamp_col = 'enrollment_date',
@@ -433,10 +433,10 @@ OPTIONS(
 SELECT
   enrollment_date,
   total_daily_enrollments
-FROM `gen-lang-client-0017660547.clinical_trial_matching.enrollment_total_daily`;
+FROM `YOUR_PROJECT_ID.clinical_trial_matching.enrollment_total_daily`;
 
 -- Use ML.FORECAST with trained ARIMA model
-CREATE OR REPLACE TABLE `gen-lang-client-0017660547.clinical_trial_matching.ml_forecast_enrollment` AS
+CREATE OR REPLACE TABLE `YOUR_PROJECT_ID.clinical_trial_matching.ml_forecast_enrollment` AS
 SELECT
   forecast_timestamp,
   forecast_value,
@@ -445,7 +445,7 @@ SELECT
   prediction_interval_lower_bound,
   prediction_interval_upper_bound
 FROM ML.FORECAST(
-  MODEL `gen-lang-client-0017660547.clinical_trial_matching.arima_enrollment_model`,
+  MODEL `YOUR_PROJECT_ID.clinical_trial_matching.arima_enrollment_model`,
   STRUCT(
     30 AS horizon,  -- 30 days
     0.95 AS confidence_level
@@ -457,7 +457,7 @@ FROM ML.FORECAST(
 -- ============================================================================
 
 -- Create forecast accuracy monitoring view
-CREATE OR REPLACE VIEW `gen-lang-client-0017660547.clinical_trial_matching.v_forecast_accuracy` AS
+CREATE OR REPLACE VIEW `YOUR_PROJECT_ID.clinical_trial_matching.v_forecast_accuracy` AS
 WITH forecast_metrics AS (
   -- Compare ML.FORECAST implementations
   SELECT
@@ -467,7 +467,7 @@ WITH forecast_metrics AS (
     AVG(standard_error) AS avg_standard_error,
     MIN(prediction_interval_lower_bound) AS min_lower_bound,
     MAX(prediction_interval_upper_bound) AS max_upper_bound
-  FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_total_enrollment`
+  FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_total_enrollment`
 
   UNION ALL
 
@@ -478,7 +478,7 @@ WITH forecast_metrics AS (
     AVG(standard_error) AS avg_standard_error,
     MIN(prediction_interval_lower_bound) AS min_lower_bound,
     MAX(prediction_interval_upper_bound) AS max_upper_bound
-  FROM `gen-lang-client-0017660547.clinical_trial_matching.ml_forecast_enrollment`
+  FROM `YOUR_PROJECT_ID.clinical_trial_matching.ml_forecast_enrollment`
 )
 SELECT
   forecast_method,
@@ -494,7 +494,7 @@ FROM forecast_metrics;
 -- SECTION 8: EXECUTIVE FORECAST DASHBOARD
 -- ============================================================================
 
-CREATE OR REPLACE TABLE `gen-lang-client-0017660547.clinical_trial_matching.forecast_executive_summary` AS
+CREATE OR REPLACE TABLE `YOUR_PROJECT_ID.clinical_trial_matching.forecast_executive_summary` AS
 WITH enrollment_outlook AS (
   SELECT
     'Enrollment Forecast' AS forecast_type,
@@ -502,7 +502,7 @@ WITH enrollment_outlook AS (
     AVG(predicted_enrollments) AS avg_daily_prediction,
     SUM(predicted_enrollments) AS total_30_day_prediction,
     AVG(confidence_level) AS avg_confidence
-  FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_by_trial`
+  FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_by_trial`
   WHERE forecast_timestamp <= DATE_ADD(CURRENT_DATE(), INTERVAL 30 DAY)
 ),
 retention_outlook AS (
@@ -512,7 +512,7 @@ retention_outlook AS (
     AVG(predicted_engagement_score) AS avg_daily_prediction,
     COUNTIF(predicted_risk_category = 'HIGH_DROPOUT_RISK') AS high_risk_count,
     0.90 AS avg_confidence  -- Using the confidence level from forecast
-  FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_patient_engagement`
+  FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_patient_engagement`
 ),
 site_outlook AS (
   SELECT
@@ -521,7 +521,7 @@ site_outlook AS (
     AVG(predicted_recruitment_rate) AS avg_daily_prediction,
     COUNTIF(performance_status = 'EXCEEDING_TARGET') AS exceeding_target_count,
     0.95 AS avg_confidence  -- Using the confidence level from forecast
-  FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_site_performance`
+  FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_site_performance`
 )
 SELECT
   forecast_type,
@@ -555,22 +555,22 @@ ORDER BY
 -- Validate all forecast tables were created successfully
 WITH validation_results AS (
   SELECT 'forecast_total_enrollment' AS table_name,
-         (SELECT COUNT(*) FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_total_enrollment`) AS row_count
+         (SELECT COUNT(*) FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_total_enrollment`) AS row_count
   UNION ALL
   SELECT 'forecast_by_trial',
-         (SELECT COUNT(*) FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_by_trial`)
+         (SELECT COUNT(*) FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_by_trial`)
   UNION ALL
   SELECT 'forecast_patient_engagement',
-         (SELECT COUNT(*) FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_patient_engagement`)
+         (SELECT COUNT(*) FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_patient_engagement`)
   UNION ALL
   SELECT 'forecast_site_performance',
-         (SELECT COUNT(*) FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_site_performance`)
+         (SELECT COUNT(*) FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_site_performance`)
   UNION ALL
   SELECT 'forecast_trial_completion',
-         (SELECT COUNT(*) FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_trial_completion`)
+         (SELECT COUNT(*) FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_trial_completion`)
   UNION ALL
   SELECT 'ml_forecast_enrollment',
-         (SELECT COUNT(*) FROM `gen-lang-client-0017660547.clinical_trial_matching.ml_forecast_enrollment`)
+         (SELECT COUNT(*) FROM `YOUR_PROJECT_ID.clinical_trial_matching.ml_forecast_enrollment`)
 )
 SELECT
   'ML.FORECAST Implementation Validation' AS validation_type,
@@ -595,30 +595,30 @@ SELECT
 
   -- Check ML.FORECAST implementation
   CASE
-    WHEN (SELECT COUNT(*) FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_total_enrollment`) > 0
+    WHEN (SELECT COUNT(*) FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_total_enrollment`) > 0
     THEN '✅ ML.FORECAST with ARIMA_PLUS'
     ELSE '❌ ML.FORECAST not working'
   END AS ml_forecast_status,
 
   -- Check multiple time series support
   CASE
-    WHEN (SELECT COUNT(DISTINCT trial_id) FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_by_trial`) > 10
+    WHEN (SELECT COUNT(DISTINCT trial_id) FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_by_trial`) > 10
     THEN '✅ Multiple time series (id_cols)'
     ELSE '❌ id_cols not working'
   END AS multi_series_support,
 
   -- Check ML.FORECAST fallback
   CASE
-    WHEN (SELECT COUNT(*) FROM `gen-lang-client-0017660547.clinical_trial_matching.ml_forecast_enrollment`) > 0
+    WHEN (SELECT COUNT(*) FROM `YOUR_PROJECT_ID.clinical_trial_matching.ml_forecast_enrollment`) > 0
     THEN '✅ ML.FORECAST (ARIMA_PLUS) fallback'
     ELSE '⚠️ No ML.FORECAST fallback'
   END AS ml_forecast_fallback,
 
   -- Check forecast diversity
   CONCAT(
-    (SELECT COUNT(DISTINCT trial_id) FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_by_trial`), ' trials, ',
-    (SELECT COUNT(DISTINCT patient_id) FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_patient_engagement`), ' patients, ',
-    (SELECT COUNT(DISTINCT site_id) FROM `gen-lang-client-0017660547.clinical_trial_matching.forecast_site_performance`), ' sites'
+    (SELECT COUNT(DISTINCT trial_id) FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_by_trial`), ' trials, ',
+    (SELECT COUNT(DISTINCT patient_id) FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_patient_engagement`), ' patients, ',
+    (SELECT COUNT(DISTINCT site_id) FROM `YOUR_PROJECT_ID.clinical_trial_matching.forecast_site_performance`), ' sites'
   ) AS forecast_coverage,
 
   'PRODUCTION READY' AS implementation_status,

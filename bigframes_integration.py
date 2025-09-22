@@ -26,12 +26,12 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Configure BigFrames
-bigframes.options.bigquery.project = "gen-lang-client-0017660547"
+bigframes.options.bigquery.project = "YOUR_PROJECT_ID"
 bigframes.options.bigquery.location = "US"
 
 class BigFramesCompetitionIntegration:
     def __init__(self):
-        self.project_id = "gen-lang-client-0017660547"
+        self.project_id = "YOUR_PROJECT_ID"
         self.dataset_id = "clinical_trial_matching"
         self.connection_id = f"{self.project_id}.US.vertex_ai_connection"
 

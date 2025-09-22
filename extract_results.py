@@ -10,7 +10,7 @@ from datetime import datetime
 import os
 
 # Configuration
-PROJECT_ID = os.getenv('GCP_PROJECT_ID', 'gen-lang-client-0017660547')
+PROJECT_ID = os.getenv('GCP_PROJECT_ID', 'YOUR_PROJECT_ID')
 DATASET_ID = os.getenv('GCP_DATASET_ID', 'clinical_trial_matching')
 
 def extract_metrics():

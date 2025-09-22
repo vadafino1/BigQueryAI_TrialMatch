@@ -19,7 +19,7 @@
 -- CONFIGURATION VARIABLES
 -- ============================================================================
 -- IMPORTANT: Replace with your actual project ID or set as environment variable
-DECLARE PROJECT_ID STRING DEFAULT 'gen-lang-client-0017660547';
+DECLARE PROJECT_ID STRING DEFAULT 'YOUR_PROJECT_ID';
 DECLARE DATASET_ID STRING DEFAULT 'clinical_trial_matching';
 
 -- ============================================================================

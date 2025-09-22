@@ -11,7 +11,7 @@ import time
 
 # Initialize BigQuery client
 credentials, project = default()
-client = bigquery.Client(project="gen-lang-client-0017660547", credentials=credentials)
+client = bigquery.Client(project="YOUR_PROJECT_ID", credentials=credentials)
 
 def generate_dummy_embeddings():
     """Generate 9000 more dummy embeddings to reach 10K total"""
@@ -53,7 +53,7 @@ def generate_dummy_embeddings():
                 write_disposition="WRITE_APPEND",
             )
             
-            table_id = "gen-lang-client-0017660547.clinical_trial_matching.patient_embeddings"
+            table_id = "YOUR_PROJECT_ID.clinical_trial_matching.patient_embeddings"
             
             try:
                 job = client.load_table_from_json(
@@ -77,7 +77,7 @@ def check_count():
     """Check final count"""
     query = """
     SELECT COUNT(*) as count 
-    FROM `gen-lang-client-0017660547.clinical_trial_matching.patient_embeddings`
+    FROM `YOUR_PROJECT_ID.clinical_trial_matching.patient_embeddings`
     """
     
     # Create query job with location
@@ -110,7 +110,7 @@ def main():
         if final_count >= 5000:
             print("\n🎯 Ready to create TreeAH indexes!")
             print("\nNext command:")
-            print('bq query --use_legacy_sql=false --location=us-central1 "CREATE OR REPLACE VECTOR INDEX patient_treeah_idx ON \`gen-lang-client-0017660547.clinical_trial_matching.patient_embeddings\`(embedding) OPTIONS(index_type = \'TREE_AH\', distance_type = \'COSINE\')"')
+            print('bq query --use_legacy_sql=false --location=us-central1 "CREATE OR REPLACE VECTOR INDEX patient_treeah_idx ON \`YOUR_PROJECT_ID.clinical_trial_matching.patient_embeddings\`(embedding) OPTIONS(index_type = \'TREE_AH\', distance_type = \'COSINE\')"')
 
 if __name__ == "__main__":
     main()

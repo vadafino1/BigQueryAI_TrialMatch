@@ -28,7 +28,7 @@ class EligibilityFeatureExtractor:
         """Initialize BigQuery client and extraction patterns"""
         credentials, _ = default()
         self.client = bigquery.Client(
-            project='gen-lang-client-0017660547',
+            project='YOUR_PROJECT_ID',
             credentials=credentials
         )
         self.patterns = self._initialize_patterns()
@@ -237,7 +237,7 @@ class EligibilityFeatureExtractor:
         # Query trials
         query = f"""
         SELECT *
-        FROM `gen-lang-client-0017660547.clinical_trial_matching.clinical_trials_eligibility`
+        FROM `YOUR_PROJECT_ID.clinical_trial_matching.clinical_trials_eligibility`
         WHERE extraction_confidence >= 0.8
         ORDER BY extraction_confidence DESC
         LIMIT {limit}
@@ -306,7 +306,7 @@ class EligibilityFeatureExtractor:
     def save_to_bigquery(self, features_df: pd.DataFrame, table_name: str):
         """Save extracted features to BigQuery"""
         
-        table_id = f"gen-lang-client-0017660547.clinical_trial_matching.{table_name}"
+        table_id = f"YOUR_PROJECT_ID.clinical_trial_matching.{table_name}"
         
         job_config = bigquery.LoadJobConfig(
             write_disposition="WRITE_TRUNCATE",
